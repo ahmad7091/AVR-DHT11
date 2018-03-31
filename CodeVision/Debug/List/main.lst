@@ -1,6 +1,16 @@
 
-AVRASM ver. 2.1.30  C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm Sun Apr 01 02:04:47 2018
+AVRASM ver. 2.1.30  C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm Sun Apr 01 02:47:27 2018
 
+C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1086): warning: Register r5 already defined by the .DEF directive
+C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1087): warning: Register r4 already defined by the .DEF directive
+C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1088): warning: Register r7 already defined by the .DEF directive
+C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1089): warning: Register r6 already defined by the .DEF directive
+C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1090): warning: Register r9 already defined by the .DEF directive
+C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1091): warning: Register r8 already defined by the .DEF directive
+C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1092): warning: Register r11 already defined by the .DEF directive
+C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1093): warning: Register r10 already defined by the .DEF directive
+C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1094): warning: Register r13 already defined by the .DEF directive
+C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1095): warning: Register r12 already defined by the .DEF directive
                  
                  
                  ;CodeVisionAVR C Compiler V3.12 Advanced
@@ -1086,6 +1096,18 @@ AVRASM ver. 2.1.30  C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\L
                  	ADD  R31,R0
                  	.ENDM
                  
+                 ;NAME DEFINITIONS FOR GLOBAL VARIABLES ALLOCATED TO REGISTERS
+                 	.DEF _bit_count=R5
+                 	.DEF _c=R4
+                 	.DEF _i_rh=R7
+                 	.DEF _d_rh=R6
+                 	.DEF _i_temp=R9
+                 	.DEF _d_temp=R8
+                 	.DEF _check=R11
+                 	.DEF _cl=R10
+                 	.DEF __lcd_x=R13
+                 	.DEF __lcd_y=R12
+                 
                  	.CSEG
                  	.ORG 0x00
                  
@@ -1093,7 +1115,7 @@ AVRASM ver. 2.1.30  C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\L
                  __START_OF_CODE:
                  
                  ;INTERRUPT VECTORS
-000000 c012      	RJMP __RESET
+000000 c030      	RJMP __RESET
 000001 cffe      	RJMP 0x00
 000002 cffd      	RJMP 0x00
 000003 cffc      	RJMP 0x00
@@ -1113,47 +1135,121 @@ AVRASM ver. 2.1.30  C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\L
 000011 cfee      	RJMP 0x00
 000012 cfed      	RJMP 0x00
                  
+                 _tbl10_G102:
+000013 2710
+000014 03e8
+000015 0064
+000016 000a      	.DB  0x10,0x27,0xE8,0x3,0x64,0x0,0xA,0x0
+000017 0001      	.DB  0x1,0x0
+                 _tbl16_G102:
+000018 1000
+000019 0100
+00001a 0010
+00001b 0001      	.DB  0x0,0x10,0x0,0x1,0x10,0x0,0x1,0x0
+                 
+                 ;GLOBAL REGISTER VARIABLES INITIALIZATION
+                 __REG_VARS:
+00001c 0000
+00001d 0000      	.DB  0x0,0x0,0x0,0x0
+00001e 0000
+C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1133): warning: .cseg .db misalignment - padding zero byte
+00001f 0000      	.DB  0x0,0x0,0x0
+                 
+                 _0x2000003:
+000020 c080      	.DB  0x80,0xC0
+                 _0x2020060:
+C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1138): warning: .cseg .db misalignment - padding zero byte
+000021 0001      	.DB  0x1
+                 _0x2020000:
+000022 4e2d
+000023 4e41
+000024 4900
+000025 464e      	.DB  0x2D,0x4E,0x41,0x4E,0x0,0x49,0x4E,0x46
+C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1141): warning: .cseg .db misalignment - padding zero byte
+000026 0000      	.DB  0x0
+                 
+                 __GLOBAL_INI_TBL:
+000027 0007      	.DW  0x07
+000028 0004      	.DW  0x04
+000029 0038      	.DW  __REG_VARS*2
+                 
+00002a 0002      	.DW  0x02
+00002b 0160      	.DW  __base_y_G100
+00002c 0040      	.DW  _0x2000003*2
+                 
+00002d 0001      	.DW  0x01
+00002e 0165      	.DW  __seed_G101
+00002f 0042      	.DW  _0x2020060*2
+                 
+                 _0xFFFFFFFF:
+000030 0000      	.DW  0
+                 
+                 #define __GLOBAL_INI_TBL_PRESENT 1
+                 
                  __RESET:
-000013 94f8      	CLI
-000014 27ee      	CLR  R30
-000015 bbec      	OUT  EECR,R30
+000031 94f8      	CLI
+000032 27ee      	CLR  R30
+000033 bbec      	OUT  EECR,R30
                  
                  ;INTERRUPT VECTORS ARE PLACED
                  ;AT THE START OF FLASH
-000016 e0f1      	LDI  R31,1
-000017 bffb      	OUT  GICR,R31
-000018 bfeb      	OUT  GICR,R30
-000019 bfe5      	OUT  MCUCR,R30
+000034 e0f1      	LDI  R31,1
+000035 bffb      	OUT  GICR,R31
+000036 bfeb      	OUT  GICR,R30
+000037 bfe5      	OUT  MCUCR,R30
                  
                  ;CLEAR R2-R14
-00001a e08d      	LDI  R24,(14-2)+1
-00001b e0a2      	LDI  R26,2
-00001c 27bb      	CLR  R27
+000038 e08d      	LDI  R24,(14-2)+1
+000039 e0a2      	LDI  R26,2
+00003a 27bb      	CLR  R27
                  __CLEAR_REG:
-00001d 93ed      	ST   X+,R30
-00001e 958a      	DEC  R24
-00001f f7e9      	BRNE __CLEAR_REG
+00003b 93ed      	ST   X+,R30
+00003c 958a      	DEC  R24
+00003d f7e9      	BRNE __CLEAR_REG
                  
                  ;CLEAR SRAM
-000020 e080      	LDI  R24,LOW(__CLEAR_SRAM_SIZE)
-000021 e094      	LDI  R25,HIGH(__CLEAR_SRAM_SIZE)
-000022 e6a0      	LDI  R26,__SRAM_START
+00003e e080      	LDI  R24,LOW(__CLEAR_SRAM_SIZE)
+00003f e094      	LDI  R25,HIGH(__CLEAR_SRAM_SIZE)
+000040 e6a0      	LDI  R26,__SRAM_START
                  __CLEAR_SRAM:
-000023 93ed      	ST   X+,R30
-000024 9701      	SBIW R24,1
-000025 f7e9      	BRNE __CLEAR_SRAM
+000041 93ed      	ST   X+,R30
+000042 9701      	SBIW R24,1
+000043 f7e9      	BRNE __CLEAR_SRAM
+                 
+                 ;GLOBAL VARIABLES INITIALIZATION
+000044 e4ee      	LDI  R30,LOW(__GLOBAL_INI_TBL*2)
+000045 e0f0      	LDI  R31,HIGH(__GLOBAL_INI_TBL*2)
+                 __GLOBAL_INI_NEXT:
+000046 9185      	LPM  R24,Z+
+000047 9195      	LPM  R25,Z+
+000048 9700      	SBIW R24,0
+000049 f061      	BREQ __GLOBAL_INI_END
+00004a 91a5      	LPM  R26,Z+
+00004b 91b5      	LPM  R27,Z+
+00004c 9005      	LPM  R0,Z+
+00004d 9015      	LPM  R1,Z+
+00004e 01bf      	MOVW R22,R30
+00004f 01f0      	MOVW R30,R0
+                 __GLOBAL_INI_LOOP:
+000050 9005      	LPM  R0,Z+
+000051 920d      	ST   X+,R0
+000052 9701      	SBIW R24,1
+000053 f7e1      	BRNE __GLOBAL_INI_LOOP
+000054 01fb      	MOVW R30,R22
+000055 cff0      	RJMP __GLOBAL_INI_NEXT
+                 __GLOBAL_INI_END:
                  
                  ;HARDWARE STACK POINTER INITIALIZATION
-000026 e5ef      	LDI  R30,LOW(__SRAM_END-__HEAP_SIZE)
-000027 bfed      	OUT  SPL,R30
-000028 e0e4      	LDI  R30,HIGH(__SRAM_END-__HEAP_SIZE)
-000029 bfee      	OUT  SPH,R30
+000056 e5ef      	LDI  R30,LOW(__SRAM_END-__HEAP_SIZE)
+000057 bfed      	OUT  SPL,R30
+000058 e0e4      	LDI  R30,HIGH(__SRAM_END-__HEAP_SIZE)
+000059 bfee      	OUT  SPH,R30
                  
                  ;DATA STACK POINTER INITIALIZATION
-00002a e6c0      	LDI  R28,LOW(__SRAM_START+__DSTACK_SIZE)
-00002b e0d1      	LDI  R29,HIGH(__SRAM_START+__DSTACK_SIZE)
+00005a e6c0      	LDI  R28,LOW(__SRAM_START+__DSTACK_SIZE)
+00005b e0d1      	LDI  R29,HIGH(__SRAM_START+__DSTACK_SIZE)
                  
-00002c c000      	RJMP _main
+00005c c000      	RJMP _main
                  
                  	.ESEG
                  	.ORG 0
@@ -1169,6 +1265,7 @@ AVRASM ver. 2.1.30  C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\L
                  ; * Author: mrsfdri
                  ; */
                  ;
+                 ;// add header file
                  ;#include <io.h>
                  	#ifndef __SLEEP_DEFINED__
                  	#define __SLEEP_DEFINED__
@@ -1181,24 +1278,150 @@ AVRASM ver. 2.1.30  C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\L
                  	.EQU __sm_adc_noise_red=0x10
                  	.SET power_ctrl_reg=mcucr
                  	#endif
+                 ;#include <mega8.h>
+                 ;// delay
+                 ;#include <delay.h>
+                 ;// lcd
+                 ;#include <alcd.h>
+                 ;// convert bit to number
+                 ;#include <stdlib.h>
+                 ;#include <stdio.h>
                  ;
-                 ;void main(void)
-                 ; 0000 000B {
+                 ;// count bit
+                 ;unsigned char bit_count = 0;
+                 ;// feedback count bit return
+                 ;unsigned char c = 0;
+                 ;// temperature and humidity value
+                 ;unsigned char i_rh, d_rh, i_temp, d_temp, check;
+                 ;// buffer show result
+                 ;unsigned char buff[16];
+                 ;// loop count
+                 ;unsigned char cl = 0;
+                 ;
+                 ;//***** start methods *****//
+                 ;
+                 ;void request(void)
+                 ; 0000 0021 {
                  
                  	.CSEG
+                 ; 0000 0022 	// DDRD.6 = 1;
+                 ; 0000 0023 	DDRD |= (1<<0);
+                 ; 0000 0024 
+                 ; 0000 0025 	// PORTD.6 = 0;
+                 ; 0000 0026 	PORTD &= ~(1<<0);
+                 ; 0000 0027 
+                 ; 0000 0028 	// delay_ms(18);
+                 ; 0000 0029 	delay_ms(18);
+                 ; 0000 002A 
+                 ; 0000 002B 	// PORTD.6 = 1;
+                 ; 0000 002C 	PORTD |= (1<<0);
+                 ; 0000 002D }
+                 ;
+                 ;
+                 ;
+                 ;void response()
+                 ; 0000 0032 {
+                 ; 0000 0033 	// PIND
+                 ; 0000 0034 	DDRD &= ~(1<<0);
+                 ; 0000 0035 
+                 ; 0000 0036 	while(PIND & (1<<0))
+                 ; 0000 0037 	{
+                 ; 0000 0038 		delay_us(1);
+                 ; 0000 0039 		cl++;
+                 ; 0000 003A 		if (cl > 80) break;
+                 ; 0000 003B 	}
+                 ; 0000 003C 
+                 ; 0000 003D 	cl = 0;
+                 ; 0000 003E 	while((PIND & (1<<0))==0)
+                 ; 0000 003F 	{
+                 ; 0000 0040 		delay_us(40);
+                 ; 0000 0041 		cl++;
+                 ; 0000 0042 		if (cl > 2) break;
+                 ; 0000 0043 	}
+                 ; 0000 0044 
+                 ; 0000 0045 	cl = 0;
+                 ; 0000 0046 	while(PIND & (1<<0))
+                 ; 0000 0047 	{
+                 ; 0000 0048 		delay_us(40);
+                 ; 0000 0049 		cl++;
+                 ; 0000 004A 		if (cl > 2) break;
+                 ; 0000 004B 	}
+                 ; 0000 004C }
+                 ;
+                 ;
+                 ;
+                 ;unsigned char recive()
+                 ; 0000 0051 {
+                 ; 0000 0052 	while(bit_count<8)
+                 ; 0000 0053 	{
+                 ; 0000 0054 		bit_count++;
+                 ; 0000 0055 
+                 ; 0000 0056 		while((PIND & (1<<0))==0);
+                 ; 0000 0057 
+                 ; 0000 0058 		delay_us(30);
+                 ; 0000 0059 
+                 ; 0000 005A 		if(PIND & (1<<0))
+                 ; 0000 005B 		{
+                 ; 0000 005C 			c=(c<<1)|(0x01);
+                 ; 0000 005D 		} else {
+                 ; 0000 005E 			c=c<<1;
+                 ; 0000 005F 		}
+                 ; 0000 0060 		while(PIND & (1<<0));
+                 ; 0000 0061 	}
+                 ; 0000 0062 
+                 ; 0000 0063 	bit_count=0;
+                 ; 0000 0064 
+                 ; 0000 0065 	return c;
+                 ; 0000 0066 }
+                 ;
+                 ;void main(void)
+                 ; 0000 0069 {
                  _main:
                  ; .FSTART _main
-                 ; 0000 000C while (1)
-                 _0x3:
-                 ; 0000 000D     {
-                 ; 0000 000E     // Please write your application code here
-                 ; 0000 000F 
-                 ; 0000 0010     }
-00002d cfff      	RJMP _0x3
-                 ; 0000 0011 }
-                 _0x6:
-00002e cfff      	RJMP _0x6
+                 ; 0000 006A 	unsigned char data[5];
+                 ; 0000 006B 	while (1)
+00005d 9725      	SBIW R28,5
+                 ;	data -> Y+0
+                 _0x1A:
+                 ; 0000 006C 		{
+                 ; 0000 006D 
+                 ; 0000 006E 
+                 ; 0000 006F 		}
+00005e cfff      	RJMP _0x1A
+                 ; 0000 0070 }
+                 _0x1D:
+00005f cfff      	RJMP _0x1D
                  ; .FEND
+                 	#ifndef __SLEEP_DEFINED__
+                 	#endif
+                 
+                 	.DSEG
+                 
+                 	.CSEG
+                 
+                 	.CSEG
+                 
+                 	.DSEG
+                 
+                 	.CSEG
+                 	#ifndef __SLEEP_DEFINED__
+                 	#endif
+                 
+                 	.CSEG
+                 
+                 	.CSEG
+                 
+                 	.CSEG
+                 
+                 	.CSEG
+                 
+                 	.DSEG
+                 __base_y_G100:
+000160           	.BYTE 0x4
+                 __lcd_maxx:
+000164           	.BYTE 0x1
+                 __seed_G101:
+000165           	.BYTE 0x4
                  
                  	.CSEG
                  
@@ -1222,41 +1445,41 @@ counted separately from r26..r31 here.
 .dseg memory usage only counts static data declared with .byte
 
 ATmega8A register use summary:
-r0 :   0 r1 :   0 r2 :   0 r3 :   0 r4 :   0 r5 :   0 r6 :   0 r7 :   0 
+r0 :   4 r1 :   1 r2 :   0 r3 :   0 r4 :   0 r5 :   0 r6 :   0 r7 :   0 
 r8 :   0 r9 :   0 r10:   0 r11:   0 r12:   0 r13:   0 r14:   0 r15:   0 
-r16:   0 r17:   0 r18:   0 r19:   0 r20:   0 r21:   0 r22:   0 r23:   0 
-r24:   4 r25:   1 r26:   2 r27:   1 r28:   1 r29:   1 r30:  10 r31:   2 
-x  :   2 y  :   0 z  :   0 
-Registers used: 9 out of 35 (25.7%)
+r16:   0 r17:   0 r18:   0 r19:   0 r20:   0 r21:   0 r22:   2 r23:   0 
+r24:   7 r25:   2 r26:   3 r27:   2 r28:   2 r29:   1 r30:  14 r31:   3 
+x  :   3 y  :   0 z  :   7 
+Registers used: 13 out of 35 (37.1%)
 
 ATmega8A instruction use summary:
 .lds  :   0 .lds.l:   0 .sts  :   0 .sts.l:   0 adc   :   0 add   :   0 
 adiw  :   0 and   :   0 andi  :   0 asr   :   0 bclr  :   0 bld   :   0 
-brbc  :   0 brbs  :   0 brcc  :   0 brcs  :   0 break :   0 breq  :   0 
+brbc  :   0 brbs  :   0 brcc  :   0 brcs  :   0 break :   0 breq  :   1 
 brge  :   0 brhc  :   0 brhs  :   0 brid  :   0 brie  :   0 brlo  :   0 
-brlt  :   0 brmi  :   0 brne  :   2 brpl  :   0 brsh  :   0 brtc  :   0 
+brlt  :   0 brmi  :   0 brne  :   3 brpl  :   0 brsh  :   0 brtc  :   0 
 brts  :   0 brvc  :   0 brvs  :   0 bset  :   0 bst   :   0 cbi   :   0 
 cbr   :   0 clc   :   0 clh   :   0 cli   :   1 cln   :   0 clr   :   2 
 cls   :   0 clt   :   0 clv   :   0 clz   :   0 com   :   0 cp    :   0 
 cpc   :   0 cpi   :   0 cpse  :   0 dec   :   1 des   :   0 eor   :   0 
 fmul  :   0 fmuls :   0 fmulsu:   0 icall :   0 ijmp  :   0 in    :   0 
-inc   :   0 ld    :   0 ldd   :   0 ldi   :  10 lds   :   0 lpm   :   0 
-lsl   :   0 lsr   :   0 mov   :   0 movw  :   0 mul   :   0 muls  :   0 
+inc   :   0 ld    :   0 ldd   :   0 ldi   :  12 lds   :   0 lpm   :   7 
+lsl   :   0 lsr   :   0 mov   :   0 movw  :   3 mul   :   0 muls  :   0 
 mulsu :   0 neg   :   0 nop   :   0 or    :   0 ori   :   0 out   :   6 
-pop   :   0 push  :   0 rcall :   0 ret   :   0 reti  :   0 rjmp  :  22 
+pop   :   0 push  :   0 rcall :   0 ret   :   0 reti  :   0 rjmp  :  23 
 rol   :   0 ror   :   0 sbc   :   0 sbci  :   0 sbi   :   0 sbic  :   0 
-sbis  :   0 sbiw  :   1 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 
+sbis  :   0 sbiw  :   4 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 
 seh   :   0 sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   0 
-sev   :   0 sez   :   0 sleep :   0 spm   :   0 st    :   2 std   :   0 
+sev   :   0 sez   :   0 sleep :   0 spm   :   0 st    :   3 std   :   0 
 sts   :   0 sub   :   0 subi  :   0 swap  :   0 tst   :   0 wdr   :   0 
 
-Instructions used: 9 out of 114 (7.9%)
+Instructions used: 12 out of 114 (10.5%)
 
 ATmega8A memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x00005e     94      0     94    8192   1.1%
-[.dseg] 0x000060 0x000160      0      0      0    1024   0.0%
+[.cseg] 0x000000 0x0000c0    132     60    192    8192   2.3%
+[.dseg] 0x000060 0x000169      0      9      9    1024   0.9%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 
-Assembly complete, 0 errors, 0 warnings
+Assembly complete, 0 errors, 13 warnings

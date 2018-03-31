@@ -1082,6 +1082,18 @@ __DELAY_USW_LOOP:
 	ADD  R31,R0
 	.ENDM
 
+;NAME DEFINITIONS FOR GLOBAL VARIABLES ALLOCATED TO REGISTERS
+	.DEF _bit_count=R5
+	.DEF _c=R4
+	.DEF _i_rh=R7
+	.DEF _d_rh=R6
+	.DEF _i_temp=R9
+	.DEF _d_temp=R8
+	.DEF _check=R11
+	.DEF _cl=R10
+	.DEF __lcd_x=R13
+	.DEF __lcd_y=R12
+
 	.CSEG
 	.ORG 0x00
 
@@ -1108,6 +1120,43 @@ __START_OF_CODE:
 	RJMP 0x00
 	RJMP 0x00
 	RJMP 0x00
+
+_tbl10_G102:
+	.DB  0x10,0x27,0xE8,0x3,0x64,0x0,0xA,0x0
+	.DB  0x1,0x0
+_tbl16_G102:
+	.DB  0x0,0x10,0x0,0x1,0x10,0x0,0x1,0x0
+
+;GLOBAL REGISTER VARIABLES INITIALIZATION
+__REG_VARS:
+	.DB  0x0,0x0,0x0,0x0
+	.DB  0x0,0x0,0x0
+
+_0x2000003:
+	.DB  0x80,0xC0
+_0x2020060:
+	.DB  0x1
+_0x2020000:
+	.DB  0x2D,0x4E,0x41,0x4E,0x0,0x49,0x4E,0x46
+	.DB  0x0
+
+__GLOBAL_INI_TBL:
+	.DW  0x07
+	.DW  0x04
+	.DW  __REG_VARS*2
+
+	.DW  0x02
+	.DW  __base_y_G100
+	.DW  _0x2000003*2
+
+	.DW  0x01
+	.DW  __seed_G101
+	.DW  _0x2020060*2
+
+_0xFFFFFFFF:
+	.DW  0
+
+#define __GLOBAL_INI_TBL_PRESENT 1
 
 __RESET:
 	CLI
@@ -1139,6 +1188,29 @@ __CLEAR_SRAM:
 	SBIW R24,1
 	BRNE __CLEAR_SRAM
 
+;GLOBAL VARIABLES INITIALIZATION
+	LDI  R30,LOW(__GLOBAL_INI_TBL*2)
+	LDI  R31,HIGH(__GLOBAL_INI_TBL*2)
+__GLOBAL_INI_NEXT:
+	LPM  R24,Z+
+	LPM  R25,Z+
+	SBIW R24,0
+	BREQ __GLOBAL_INI_END
+	LPM  R26,Z+
+	LPM  R27,Z+
+	LPM  R0,Z+
+	LPM  R1,Z+
+	MOVW R22,R30
+	MOVW R30,R0
+__GLOBAL_INI_LOOP:
+	LPM  R0,Z+
+	ST   X+,R0
+	SBIW R24,1
+	BRNE __GLOBAL_INI_LOOP
+	MOVW R30,R22
+	RJMP __GLOBAL_INI_NEXT
+__GLOBAL_INI_END:
+
 ;HARDWARE STACK POINTER INITIALIZATION
 	LDI  R30,LOW(__SRAM_END-__HEAP_SIZE)
 	OUT  SPL,R30
@@ -1165,6 +1237,7 @@ __CLEAR_SRAM:
 ; * Author: mrsfdri
 ; */
 ;
+;// add header file
 ;#include <io.h>
 	#ifndef __SLEEP_DEFINED__
 	#define __SLEEP_DEFINED__
@@ -1177,24 +1250,168 @@ __CLEAR_SRAM:
 	.EQU __sm_adc_noise_red=0x10
 	.SET power_ctrl_reg=mcucr
 	#endif
+;#include <mega8.h>
+;// delay
+;#include <delay.h>
+;// lcd
+;#include <alcd.h>
+;// convert bit to number
+;#include <stdlib.h>
+;#include <stdio.h>
 ;
-;void main(void)
-; 0000 000B {
+;// count bit
+;unsigned char bit_count = 0;
+;// feedback count bit return
+;unsigned char c = 0;
+;// temperature and humidity value
+;unsigned char i_rh, d_rh, i_temp, d_temp, check;
+;// buffer show result
+;unsigned char buff[16];
+;// loop count
+;unsigned char cl = 0;
+;
+;//***** start methods *****//
+;
+;void request(void)
+; 0000 0021 {
 
 	.CSEG
+; 0000 0022 	// DDRD.6 = 1;
+; 0000 0023 	DDRD |= (1<<0);
+; 0000 0024 
+; 0000 0025 	// PORTD.6 = 0;
+; 0000 0026 	PORTD &= ~(1<<0);
+; 0000 0027 
+; 0000 0028 	// delay_ms(18);
+; 0000 0029 	delay_ms(18);
+; 0000 002A 
+; 0000 002B 	// PORTD.6 = 1;
+; 0000 002C 	PORTD |= (1<<0);
+; 0000 002D }
+;
+;
+;
+;void response()
+; 0000 0032 {
+; 0000 0033 	// PIND
+; 0000 0034 	DDRD &= ~(1<<0);
+; 0000 0035 
+; 0000 0036 	while(PIND & (1<<0))
+; 0000 0037 	{
+; 0000 0038 		delay_us(1);
+; 0000 0039 		cl++;
+; 0000 003A 		if (cl > 80) break;
+; 0000 003B 	}
+; 0000 003C 
+; 0000 003D 	cl = 0;
+; 0000 003E 	while((PIND & (1<<0))==0)
+; 0000 003F 	{
+; 0000 0040 		delay_us(40);
+; 0000 0041 		cl++;
+; 0000 0042 		if (cl > 2) break;
+; 0000 0043 	}
+; 0000 0044 
+; 0000 0045 	cl = 0;
+; 0000 0046 	while(PIND & (1<<0))
+; 0000 0047 	{
+; 0000 0048 		delay_us(40);
+; 0000 0049 		cl++;
+; 0000 004A 		if (cl > 2) break;
+; 0000 004B 	}
+; 0000 004C }
+;
+;
+;
+;unsigned char recive()
+; 0000 0051 {
+; 0000 0052 	while(bit_count<8)
+; 0000 0053 	{
+; 0000 0054 		bit_count++;
+; 0000 0055 
+; 0000 0056 		while((PIND & (1<<0))==0);
+; 0000 0057 
+; 0000 0058 		delay_us(30);
+; 0000 0059 
+; 0000 005A 		if(PIND & (1<<0))
+; 0000 005B 		{
+; 0000 005C 			c=(c<<1)|(0x01);
+; 0000 005D 		} else {
+; 0000 005E 			c=c<<1;
+; 0000 005F 		}
+; 0000 0060 		while(PIND & (1<<0));
+; 0000 0061 	}
+; 0000 0062 
+; 0000 0063 	bit_count=0;
+; 0000 0064 
+; 0000 0065 	return c;
+; 0000 0066 }
+;
+;void main(void)
+; 0000 0069 {
 _main:
 ; .FSTART _main
-; 0000 000C while (1)
-_0x3:
-; 0000 000D     {
-; 0000 000E     // Please write your application code here
-; 0000 000F 
-; 0000 0010     }
-	RJMP _0x3
-; 0000 0011 }
-_0x6:
-	RJMP _0x6
+; 0000 006A 	unsigned char data[5];
+; 0000 006B 	while (1)
+	SBIW R28,5
+;	data -> Y+0
+_0x1A:
+; 0000 006C 		{
+; 0000 006D 
+; 0000 006E 
+; 0000 006F 		}
+	RJMP _0x1A
+; 0000 0070 }
+_0x1D:
+	RJMP _0x1D
 ; .FEND
+	#ifndef __SLEEP_DEFINED__
+	#define __SLEEP_DEFINED__
+	.EQU __se_bit=0x80
+	.EQU __sm_mask=0x70
+	.EQU __sm_powerdown=0x20
+	.EQU __sm_powersave=0x30
+	.EQU __sm_standby=0x60
+	.EQU __sm_ext_standby=0x70
+	.EQU __sm_adc_noise_red=0x10
+	.SET power_ctrl_reg=mcucr
+	#endif
+
+	.DSEG
+
+	.CSEG
+
+	.CSEG
+
+	.DSEG
+
+	.CSEG
+	#ifndef __SLEEP_DEFINED__
+	#define __SLEEP_DEFINED__
+	.EQU __se_bit=0x80
+	.EQU __sm_mask=0x70
+	.EQU __sm_powerdown=0x20
+	.EQU __sm_powersave=0x30
+	.EQU __sm_standby=0x60
+	.EQU __sm_ext_standby=0x70
+	.EQU __sm_adc_noise_red=0x10
+	.SET power_ctrl_reg=mcucr
+	#endif
+
+	.CSEG
+
+	.CSEG
+
+	.CSEG
+
+	.CSEG
+
+	.DSEG
+__base_y_G100:
+	.BYTE 0x4
+__lcd_maxx:
+	.BYTE 0x1
+__seed_G101:
+	.BYTE 0x4
 
 	.CSEG
 
