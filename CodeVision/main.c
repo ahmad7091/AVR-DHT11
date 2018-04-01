@@ -146,6 +146,6 @@ void main(void)
 			lcd_gotoxy(10, 1);
 			lcd_puts(data);
 		}
-
+		delay_ms(2000);
 	}
 }
