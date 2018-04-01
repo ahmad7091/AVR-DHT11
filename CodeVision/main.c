@@ -22,8 +22,6 @@ unsigned char bit_count = 0;
 unsigned char c = 0;
 // temperature and humidity value
 unsigned char i_rh, d_rh, i_temp, d_temp, check;
-// buffer show result
-unsigned char buff[16];
 // loop count
 unsigned char cl = 0;
 
@@ -104,9 +102,50 @@ unsigned char recive()
 void main(void)
 {	
 	unsigned char data[5];
-	while (1)
-		{
-		
 
+	// Initial LCD
+	lcd_init(16);
+	
+
+	lcd_clear();
+	lcd_gotoxy(0, 0);
+	lcd_puts("GeekTab.ir");
+	delay_ms(1000);
+	lcd_gotoxy(0, 1);
+	lcd_puts("T: ");
+	lcd_gotoxy(7, 1);
+	lcd_puts("H: ");
+	
+	
+	while (1)
+	{
+		request();
+		response();
+
+		i_rh   = recive();
+		d_rh   = recive();
+		i_temp = recive();
+		d_temp = recive();
+		check  = recive();
+
+		if ((i_rh + d_rh + i_temp + d_temp) != check)
+		{
+			lcd_gotoxy(3, 1);
+			lcd_puts("E");
+
+			lcd_gotoxy(10, 1);
+			lcd_puts("E");
+		} else
+		{
+			itoa(i_rh, data);
+			lcd_gotoxy(3, 1);
+			lcd_puts(data);
+
+
+			itoa(i_temp, data);
+			lcd_gotoxy(10, 1);
+			lcd_puts(data);
 		}
+
+	}
 }
