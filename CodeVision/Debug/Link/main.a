@@ -254,7 +254,7 @@
 ;PCODE: $0000007D VOL: 0
 ;PCODE: $0000007E VOL: 0
 ;PCODE: $0000007F VOL: 0
-; 0000 0073 	lcd_puts("T: ");
+; 0000 0073 	lcd_puts("H: ");
 ;PCODE: $00000080 VOL: 0
 ;PCODE: $00000081 VOL: 0
 ;PCODE: $00000082 VOL: 0
@@ -263,7 +263,7 @@
 ;PCODE: $00000084 VOL: 0
 ;PCODE: $00000085 VOL: 0
 ;PCODE: $00000086 VOL: 0
-; 0000 0075 	lcd_puts("H: ");
+; 0000 0075 	lcd_puts("T: ");
 ;PCODE: $00000087 VOL: 0
 ;PCODE: $00000088 VOL: 0
 ;PCODE: $00000089 VOL: 0
@@ -272,30 +272,31 @@
 ; 0000 0078 	while (1)
 ;PCODE: $0000008A VOL: 0
 ; 0000 0079 	{
-; 0000 007A 		request();
+; 0000 007A 		delay_ms(1000);
 ;PCODE: $0000008B VOL: 0
-; 0000 007B 		response();
 ;PCODE: $0000008C VOL: 0
-; 0000 007C 
-; 0000 007D 		i_rh   = recive();
+; 0000 007B 		request();
 ;PCODE: $0000008D VOL: 0
+; 0000 007C 		response();
 ;PCODE: $0000008E VOL: 0
-; 0000 007E 		d_rh   = recive();
+; 0000 007D 
+; 0000 007E 		i_rh   = recive();
 ;PCODE: $0000008F VOL: 0
 ;PCODE: $00000090 VOL: 0
-; 0000 007F 		i_temp = recive();
+; 0000 007F 		d_rh   = recive();
 ;PCODE: $00000091 VOL: 0
 ;PCODE: $00000092 VOL: 0
-; 0000 0080 		d_temp = recive();
+; 0000 0080 		i_temp = recive();
 ;PCODE: $00000093 VOL: 0
 ;PCODE: $00000094 VOL: 0
-; 0000 0081 		check  = recive();
+; 0000 0081 		d_temp = recive();
 ;PCODE: $00000095 VOL: 0
 ;PCODE: $00000096 VOL: 0
-; 0000 0082 
-; 0000 0083 		if ((i_rh + d_rh + i_temp + d_temp) != check)
+; 0000 0082 		check  = recive();
 ;PCODE: $00000097 VOL: 0
 ;PCODE: $00000098 VOL: 0
+; 0000 0083 
+; 0000 0084 		if ((i_rh + d_rh + i_temp + d_temp) != check)
 ;PCODE: $00000099 VOL: 0
 ;PCODE: $0000009A VOL: 0
 ;PCODE: $0000009B VOL: 0
@@ -303,71 +304,75 @@
 ;PCODE: $0000009D VOL: 0
 ;PCODE: $0000009E VOL: 0
 ;PCODE: $0000009F VOL: 0
-; 0000 0084 		{
-; 0000 0085 			lcd_gotoxy(3, 1);
 ;PCODE: $000000A0 VOL: 0
 ;PCODE: $000000A1 VOL: 0
+; 0000 0085 		{
+; 0000 0086 			lcd_gotoxy(3, 1);
 ;PCODE: $000000A2 VOL: 0
 ;PCODE: $000000A3 VOL: 0
-; 0000 0086 			lcd_puts("E");
 ;PCODE: $000000A4 VOL: 0
 ;PCODE: $000000A5 VOL: 0
+; 0000 0087 			lcd_puts("E");
 ;PCODE: $000000A6 VOL: 0
-; 0000 0087 
-; 0000 0088 			lcd_gotoxy(10, 1);
 ;PCODE: $000000A7 VOL: 0
 ;PCODE: $000000A8 VOL: 0
+; 0000 0088 
+; 0000 0089 			lcd_gotoxy(10, 1);
 ;PCODE: $000000A9 VOL: 0
 ;PCODE: $000000AA VOL: 0
-; 0000 0089 			lcd_puts("E");
 ;PCODE: $000000AB VOL: 0
 ;PCODE: $000000AC VOL: 0
+; 0000 008A 			lcd_puts("E");
 ;PCODE: $000000AD VOL: 0
-; 0000 008A 		} else
 ;PCODE: $000000AE VOL: 0
 ;PCODE: $000000AF VOL: 0
-; 0000 008B 		{
-; 0000 008C 			itoa(i_rh, data);
+; 0000 008B 		} else
 ;PCODE: $000000B0 VOL: 0
 ;PCODE: $000000B1 VOL: 0
+; 0000 008C 		{
+; 0000 008D 			itoa(i_rh, data);
 ;PCODE: $000000B2 VOL: 0
 ;PCODE: $000000B3 VOL: 0
 ;PCODE: $000000B4 VOL: 0
-; 0000 008D 			lcd_gotoxy(3, 1);
 ;PCODE: $000000B5 VOL: 0
 ;PCODE: $000000B6 VOL: 0
+; 0000 008E 			lcd_gotoxy(3, 1);
 ;PCODE: $000000B7 VOL: 0
 ;PCODE: $000000B8 VOL: 0
-; 0000 008E 			lcd_puts(data);
 ;PCODE: $000000B9 VOL: 0
 ;PCODE: $000000BA VOL: 0
-; 0000 008F 
-; 0000 0090 
-; 0000 0091 			itoa(i_temp, data);
+; 0000 008F 			lcd_puts(data);
 ;PCODE: $000000BB VOL: 0
 ;PCODE: $000000BC VOL: 0
+; 0000 0090 
+; 0000 0091 
+; 0000 0092 			itoa(i_temp, data);
 ;PCODE: $000000BD VOL: 0
 ;PCODE: $000000BE VOL: 0
 ;PCODE: $000000BF VOL: 0
-; 0000 0092 			lcd_gotoxy(10, 1);
 ;PCODE: $000000C0 VOL: 0
 ;PCODE: $000000C1 VOL: 0
+; 0000 0093 			lcd_gotoxy(10, 1);
 ;PCODE: $000000C2 VOL: 0
 ;PCODE: $000000C3 VOL: 0
-; 0000 0093 			lcd_puts(data);
 ;PCODE: $000000C4 VOL: 0
 ;PCODE: $000000C5 VOL: 0
-; 0000 0094 		}
+; 0000 0094 			lcd_puts(data);
 ;PCODE: $000000C6 VOL: 0
-; 0000 0095 
-; 0000 0096 	}
 ;PCODE: $000000C7 VOL: 0
+; 0000 0095 		}
 ;PCODE: $000000C8 VOL: 0
-; 0000 0097 }
+; 0000 0096 		delay_ms(1000);
 ;PCODE: $000000C9 VOL: 0
 ;PCODE: $000000CA VOL: 0
+; 0000 0097 	}
 ;PCODE: $000000CB VOL: 0
 ;PCODE: $000000CC VOL: 0
+; 0000 0098 }
+;PCODE: $000000CD VOL: 0
+;PCODE: $000000CE VOL: 0
+;PCODE: $000000CF VOL: 0
+;PCODE: $000000D0 VOL: 0
 
 	.DSEG
 _0x1A:

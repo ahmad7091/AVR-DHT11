@@ -112,13 +112,14 @@ void main(void)
 	lcd_puts("GeekTab.ir");
 	delay_ms(1000);
 	lcd_gotoxy(0, 1);
-	lcd_puts("T: ");
-	lcd_gotoxy(7, 1);
 	lcd_puts("H: ");
+	lcd_gotoxy(7, 1);
+	lcd_puts("T: ");
 	
 	
 	while (1)
 	{
+		delay_ms(1000);
 		request();
 		response();
 
@@ -146,6 +147,6 @@ void main(void)
 			lcd_gotoxy(10, 1);
 			lcd_puts(data);
 		}
-		delay_ms(2000);
+		delay_ms(1000);
 	}
 }

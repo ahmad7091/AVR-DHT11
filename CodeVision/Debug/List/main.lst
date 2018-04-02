@@ -1,5 +1,5 @@
 
-AVRASM ver. 2.1.30  C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm Sun Apr 01 13:59:34 2018
+AVRASM ver. 2.1.30  C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm Mon Apr 02 19:24:00 2018
 
 C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1086): warning: Register r5 already defined by the .DEF directive
 C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1087): warning: Register r4 already defined by the .DEF directive
@@ -1161,9 +1161,9 @@ C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1133): 
 000022 6154
 000023 2e62      	.DB  0x47,0x65,0x65,0x6B,0x54,0x61,0x62,0x2E
 000024 7269
-000025 5400
+000025 4800
 000026 203a
-000027 4800      	.DB  0x69,0x72,0x0,0x54,0x3A,0x20,0x0,0x48
+000027 5400      	.DB  0x69,0x72,0x0,0x48,0x3A,0x20,0x0,0x54
 000028 203a
 000029 4500
 C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1138): warning: .cseg .db misalignment - padding zero byte
@@ -1510,119 +1510,120 @@ C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1145): 
                  	__POINTW2MN _0x1A,0
 0000b3 d09e      	RCALL _lcd_puts
                  ; 0000 0071 	delay_ms(1000);
-0000b4 eea8      	LDI  R26,LOW(1000)
-0000b5 e0b3      	LDI  R27,HIGH(1000)
-0000b6 d122      	RCALL _delay_ms
+0000b4 d110      	RCALL SUBOPT_0x2
                  ; 0000 0072 	lcd_gotoxy(0, 1);
-0000b7 e0e0      	LDI  R30,LOW(0)
-0000b8 d10c      	RCALL SUBOPT_0x2
-                 ; 0000 0073 	lcd_puts("T: ");
+0000b5 e0e0      	LDI  R30,LOW(0)
+0000b6 d111      	RCALL SUBOPT_0x3
+                 ; 0000 0073 	lcd_puts("H: ");
                 +
-0000b9 e6ab     +LDI R26 , LOW ( _0x1A + ( 11 ) )
-0000ba e0b1     +LDI R27 , HIGH ( _0x1A + ( 11 ) )
+0000b7 e6ab     +LDI R26 , LOW ( _0x1A + ( 11 ) )
+0000b8 e0b1     +LDI R27 , HIGH ( _0x1A + ( 11 ) )
                  	__POINTW2MN _0x1A,11
-0000bb d096      	RCALL _lcd_puts
+0000b9 d098      	RCALL _lcd_puts
                  ; 0000 0074 	lcd_gotoxy(7, 1);
-0000bc e0e7      	LDI  R30,LOW(7)
-0000bd d107      	RCALL SUBOPT_0x2
-                 ; 0000 0075 	lcd_puts("H: ");
+0000ba e0e7      	LDI  R30,LOW(7)
+0000bb d10c      	RCALL SUBOPT_0x3
+                 ; 0000 0075 	lcd_puts("T: ");
                 +
-0000be e6af     +LDI R26 , LOW ( _0x1A + ( 15 ) )
-0000bf e0b1     +LDI R27 , HIGH ( _0x1A + ( 15 ) )
+0000bc e6af     +LDI R26 , LOW ( _0x1A + ( 15 ) )
+0000bd e0b1     +LDI R27 , HIGH ( _0x1A + ( 15 ) )
                  	__POINTW2MN _0x1A,15
-0000c0 d091      	RCALL _lcd_puts
+0000be d093      	RCALL _lcd_puts
                  ; 0000 0076 
                  ; 0000 0077 
                  ; 0000 0078 	while (1)
                  _0x1B:
                  ; 0000 0079 	{
-                 ; 0000 007A 		request();
-0000c1 dfb5      	RCALL _request
-                 ; 0000 007B 		response();
-0000c2 dfba      	RCALL _response
-                 ; 0000 007C 
-                 ; 0000 007D 		i_rh   = recive();
-0000c3 dfce      	RCALL _recive
-0000c4 2e7e      	MOV  R7,R30
-                 ; 0000 007E 		d_rh   = recive();
-0000c5 dfcc      	RCALL _recive
-0000c6 2e6e      	MOV  R6,R30
-                 ; 0000 007F 		i_temp = recive();
-0000c7 dfca      	RCALL _recive
-0000c8 2e9e      	MOV  R9,R30
-                 ; 0000 0080 		d_temp = recive();
-0000c9 dfc8      	RCALL _recive
-0000ca 2e8e      	MOV  R8,R30
-                 ; 0000 0081 		check  = recive();
-0000cb dfc6      	RCALL _recive
-0000cc 2ebe      	MOV  R11,R30
-                 ; 0000 0082 
-                 ; 0000 0083 		if ((i_rh + d_rh + i_temp + d_temp) != check)
-0000cd 2da7      	MOV  R26,R7
-0000ce 27bb      	CLR  R27
-0000cf 27ee      	CLR  R30
-0000d0 0da6      	ADD  R26,R6
-0000d1 1fbe      	ADC  R27,R30
-0000d2 27ee      	CLR  R30
-0000d3 0da9      	ADD  R26,R9
-0000d4 1fbe      	ADC  R27,R30
-0000d5 27ee      	CLR  R30
-0000d6 0da8      	ADD  R26,R8
-0000d7 1fbe      	ADC  R27,R30
-0000d8 2deb      	MOV  R30,R11
-0000d9 e0f0      	LDI  R31,0
-0000da 17ea      	CP   R30,R26
-0000db 07fb      	CPC  R31,R27
-0000dc f051      	BREQ _0x1E
-                 ; 0000 0084 		{
-                 ; 0000 0085 			lcd_gotoxy(3, 1);
-0000dd e0e3      	LDI  R30,LOW(3)
-0000de d0e6      	RCALL SUBOPT_0x2
-                 ; 0000 0086 			lcd_puts("E");
+                 ; 0000 007A 		delay_ms(1000);
+0000bf d105      	RCALL SUBOPT_0x2
+                 ; 0000 007B 		request();
+0000c0 dfb6      	RCALL _request
+                 ; 0000 007C 		response();
+0000c1 dfbb      	RCALL _response
+                 ; 0000 007D 
+                 ; 0000 007E 		i_rh   = recive();
+0000c2 dfcf      	RCALL _recive
+0000c3 2e7e      	MOV  R7,R30
+                 ; 0000 007F 		d_rh   = recive();
+0000c4 dfcd      	RCALL _recive
+0000c5 2e6e      	MOV  R6,R30
+                 ; 0000 0080 		i_temp = recive();
+0000c6 dfcb      	RCALL _recive
+0000c7 2e9e      	MOV  R9,R30
+                 ; 0000 0081 		d_temp = recive();
+0000c8 dfc9      	RCALL _recive
+0000c9 2e8e      	MOV  R8,R30
+                 ; 0000 0082 		check  = recive();
+0000ca dfc7      	RCALL _recive
+0000cb 2ebe      	MOV  R11,R30
+                 ; 0000 0083 
+                 ; 0000 0084 		if ((i_rh + d_rh + i_temp + d_temp) != check)
+0000cc 2da7      	MOV  R26,R7
+0000cd 27bb      	CLR  R27
+0000ce 27ee      	CLR  R30
+0000cf 0da6      	ADD  R26,R6
+0000d0 1fbe      	ADC  R27,R30
+0000d1 27ee      	CLR  R30
+0000d2 0da9      	ADD  R26,R9
+0000d3 1fbe      	ADC  R27,R30
+0000d4 27ee      	CLR  R30
+0000d5 0da8      	ADD  R26,R8
+0000d6 1fbe      	ADC  R27,R30
+0000d7 2deb      	MOV  R30,R11
+0000d8 e0f0      	LDI  R31,0
+0000d9 17ea      	CP   R30,R26
+0000da 07fb      	CPC  R31,R27
+0000db f051      	BREQ _0x1E
+                 ; 0000 0085 		{
+                 ; 0000 0086 			lcd_gotoxy(3, 1);
+0000dc e0e3      	LDI  R30,LOW(3)
+0000dd d0ea      	RCALL SUBOPT_0x3
+                 ; 0000 0087 			lcd_puts("E");
                 +
-0000df e7a3     +LDI R26 , LOW ( _0x1A + ( 19 ) )
-0000e0 e0b1     +LDI R27 , HIGH ( _0x1A + ( 19 ) )
+0000de e7a3     +LDI R26 , LOW ( _0x1A + ( 19 ) )
+0000df e0b1     +LDI R27 , HIGH ( _0x1A + ( 19 ) )
                  	__POINTW2MN _0x1A,19
-0000e1 d070      	RCALL _lcd_puts
-                 ; 0000 0087 
-                 ; 0000 0088 			lcd_gotoxy(10, 1);
-0000e2 e0ea      	LDI  R30,LOW(10)
-0000e3 d0e1      	RCALL SUBOPT_0x2
-                 ; 0000 0089 			lcd_puts("E");
+0000e0 d071      	RCALL _lcd_puts
+                 ; 0000 0088 
+                 ; 0000 0089 			lcd_gotoxy(10, 1);
+0000e1 e0ea      	LDI  R30,LOW(10)
+0000e2 d0e5      	RCALL SUBOPT_0x3
+                 ; 0000 008A 			lcd_puts("E");
                 +
-0000e4 e7a5     +LDI R26 , LOW ( _0x1A + ( 21 ) )
-0000e5 e0b1     +LDI R27 , HIGH ( _0x1A + ( 21 ) )
+0000e3 e7a5     +LDI R26 , LOW ( _0x1A + ( 21 ) )
+0000e4 e0b1     +LDI R27 , HIGH ( _0x1A + ( 21 ) )
                  	__POINTW2MN _0x1A,21
-0000e6 c00b      	RJMP _0x21
-                 ; 0000 008A 		} else
+0000e5 c00b      	RJMP _0x21
+                 ; 0000 008B 		} else
                  _0x1E:
-                 ; 0000 008B 		{
-                 ; 0000 008C 			itoa(i_rh, data);
-0000e7 2de7      	MOV  R30,R7
-0000e8 d0df      	RCALL SUBOPT_0x3
-                 ; 0000 008D 			lcd_gotoxy(3, 1);
-0000e9 e0e3      	LDI  R30,LOW(3)
-0000ea d0da      	RCALL SUBOPT_0x2
-                 ; 0000 008E 			lcd_puts(data);
-0000eb 01de      	MOVW R26,R28
-0000ec d065      	RCALL _lcd_puts
-                 ; 0000 008F 
+                 ; 0000 008C 		{
+                 ; 0000 008D 			itoa(i_rh, data);
+0000e6 2de7      	MOV  R30,R7
+0000e7 d0e3      	RCALL SUBOPT_0x4
+                 ; 0000 008E 			lcd_gotoxy(3, 1);
+0000e8 e0e3      	LDI  R30,LOW(3)
+0000e9 d0de      	RCALL SUBOPT_0x3
+                 ; 0000 008F 			lcd_puts(data);
+0000ea 01de      	MOVW R26,R28
+0000eb d066      	RCALL _lcd_puts
                  ; 0000 0090 
-                 ; 0000 0091 			itoa(i_temp, data);
-0000ed 2de9      	MOV  R30,R9
-0000ee d0d9      	RCALL SUBOPT_0x3
-                 ; 0000 0092 			lcd_gotoxy(10, 1);
-0000ef e0ea      	LDI  R30,LOW(10)
-0000f0 d0d4      	RCALL SUBOPT_0x2
-                 ; 0000 0093 			lcd_puts(data);
-0000f1 01de      	MOVW R26,R28
+                 ; 0000 0091 
+                 ; 0000 0092 			itoa(i_temp, data);
+0000ec 2de9      	MOV  R30,R9
+0000ed d0dd      	RCALL SUBOPT_0x4
+                 ; 0000 0093 			lcd_gotoxy(10, 1);
+0000ee e0ea      	LDI  R30,LOW(10)
+0000ef d0d8      	RCALL SUBOPT_0x3
+                 ; 0000 0094 			lcd_puts(data);
+0000f0 01de      	MOVW R26,R28
                  _0x21:
-0000f2 d05f      	RCALL _lcd_puts
-                 ; 0000 0094 		}
-                 ; 0000 0095 
-                 ; 0000 0096 	}
-0000f3 cfcd      	RJMP _0x1B
-                 ; 0000 0097 }
+0000f1 d060      	RCALL _lcd_puts
+                 ; 0000 0095 		}
+                 ; 0000 0096 		delay_ms(1000);
+0000f2 d0d2      	RCALL SUBOPT_0x2
+                 ; 0000 0097 	}
+0000f3 cfcb      	RJMP _0x1B
+                 ; 0000 0098 }
                  _0x20:
 0000f4 cfff      	RJMP _0x20
                  ; .FEND
@@ -1671,11 +1672,11 @@ C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1145): 
                  _0x200000A:
 00010d 9891      	CBI  0x12,1
                  _0x200000B:
-00010e d0bf      	RCALL SUBOPT_0x4
+00010e d0c2      	RCALL SUBOPT_0x5
 00010f 9a95      	SBI  0x12,5
-000110 d0bd      	RCALL SUBOPT_0x4
+000110 d0c0      	RCALL SUBOPT_0x5
 000111 9895      	CBI  0x12,5
-000112 d0bb      	RCALL SUBOPT_0x4
+000112 d0be      	RCALL SUBOPT_0x5
 000113 c078      	RJMP _0x20C0001
                  ; .FEND
                  __lcd_write_data:
@@ -1805,9 +1806,9 @@ C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1145): 
                  	__PUTB1MN __base_y_G100,3
 000178 e1a4      	LDI  R26,LOW(20)
 000179 d042      	RCALL SUBOPT_0x0
-00017a d057      	RCALL SUBOPT_0x5
-00017b d056      	RCALL SUBOPT_0x5
-00017c d055      	RCALL SUBOPT_0x5
+00017a d05a      	RCALL SUBOPT_0x6
+00017b d059      	RCALL SUBOPT_0x6
+00017c d058      	RCALL SUBOPT_0x6
 00017d e2a0      	LDI  R26,LOW(32)
 00017e df76      	RCALL __lcd_write_nibble_G100
                 +
@@ -1915,7 +1916,7 @@ C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1145): 
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 4 TIMES, CODE SIZE REDUCTION:1 WORDS
                  SUBOPT_0x0:
 0001bc e0b0      	LDI  R27,0
-0001bd c01b      	RJMP _delay_ms
+0001bd c01e      	RJMP _delay_ms
                  
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:3 WORDS
                  SUBOPT_0x1:
@@ -1930,62 +1931,68 @@ C:\Users\mrsfdri\Desktop\github\AVR-DHT11\CodeVision\Debug\List\main.asm(1145): 
 0001c3 15ea      	CP   R30,R10
 0001c4 9508      	RET
                  
-                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 6 TIMES, CODE SIZE REDUCTION:8 WORDS
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:2 WORDS
                  SUBOPT_0x2:
-0001c5 93ea      	ST   -Y,R30
-0001c6 e0a1      	LDI  R26,LOW(1)
-0001c7 cf58      	RJMP _lcd_gotoxy
+0001c5 eea8      	LDI  R26,LOW(1000)
+0001c6 e0b3      	LDI  R27,HIGH(1000)
+0001c7 c014      	RJMP _delay_ms
+                 
+                 ;OPTIMIZER ADDED SUBROUTINE, CALLED 6 TIMES, CODE SIZE REDUCTION:8 WORDS
+                 SUBOPT_0x3:
+0001c8 93ea      	ST   -Y,R30
+0001c9 e0a1      	LDI  R26,LOW(1)
+0001ca cf55      	RJMP _lcd_gotoxy
                  
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:3 WORDS
-                 SUBOPT_0x3:
-0001c8 e0f0      	LDI  R31,0
-0001c9 93fa      	ST   -Y,R31
-0001ca 93ea      	ST   -Y,R30
-0001cb 01de      	MOVW R26,R28
-0001cc 9612      	ADIW R26,2
-0001cd cfc0      	RJMP _itoa
+                 SUBOPT_0x4:
+0001cb e0f0      	LDI  R31,0
+0001cc 93fa      	ST   -Y,R31
+0001cd 93ea      	ST   -Y,R30
+0001ce 01de      	MOVW R26,R28
+0001cf 9612      	ADIW R26,2
+0001d0 cfbd      	RJMP _itoa
                  
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:2 WORDS
-                 SUBOPT_0x4:
+                 SUBOPT_0x5:
                 +
-0001ce e08d     +LDI R24 , LOW ( 13 )
+0001d1 e08d     +LDI R24 , LOW ( 13 )
                 +__DELAY_USB_LOOP :
-0001cf 958a     +DEC R24
-0001d0 f7f1     +BRNE __DELAY_USB_LOOP
+0001d2 958a     +DEC R24
+0001d3 f7f1     +BRNE __DELAY_USB_LOOP
                  	__DELAY_USB 13
-0001d1 9508      	RET
+0001d4 9508      	RET
                  
                  ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:8 WORDS
-                 SUBOPT_0x5:
-0001d2 e3a0      	LDI  R26,LOW(48)
-0001d3 df21      	RCALL __lcd_write_nibble_G100
+                 SUBOPT_0x6:
+0001d5 e3a0      	LDI  R26,LOW(48)
+0001d6 df1e      	RCALL __lcd_write_nibble_G100
                 +
-0001d4 ec88     +LDI R24 , LOW ( 200 )
-0001d5 e090     +LDI R25 , HIGH ( 200 )
+0001d7 ec88     +LDI R24 , LOW ( 200 )
+0001d8 e090     +LDI R25 , HIGH ( 200 )
                 +__DELAY_USW_LOOP :
-0001d6 9701     +SBIW R24 , 1
-0001d7 f7f1     +BRNE __DELAY_USW_LOOP
+0001d9 9701     +SBIW R24 , 1
+0001da f7f1     +BRNE __DELAY_USW_LOOP
                  	__DELAY_USW 200
-0001d8 9508      	RET
+0001db 9508      	RET
                  
                  
                  	.CSEG
                  _delay_ms:
-0001d9 9610      	adiw r26,0
-0001da f039      	breq __delay_ms1
+0001dc 9610      	adiw r26,0
+0001dd f039      	breq __delay_ms1
                  __delay_ms0:
                 +
-0001db ed80     +LDI R24 , LOW ( 0x7D0 )
-0001dc e097     +LDI R25 , HIGH ( 0x7D0 )
+0001de ed80     +LDI R24 , LOW ( 0x7D0 )
+0001df e097     +LDI R25 , HIGH ( 0x7D0 )
                 +__DELAY_USW_LOOP :
-0001dd 9701     +SBIW R24 , 1
-0001de f7f1     +BRNE __DELAY_USW_LOOP
+0001e0 9701     +SBIW R24 , 1
+0001e1 f7f1     +BRNE __DELAY_USW_LOOP
                  	__DELAY_USW 0x7D0
-0001df 95a8      	wdr
-0001e0 9711      	sbiw r26,1
-0001e1 f7c9      	brne __delay_ms0
+0001e2 95a8      	wdr
+0001e3 9711      	sbiw r26,1
+0001e4 f7c9      	brne __delay_ms0
                  __delay_ms1:
-0001e2 9508      	ret
+0001e5 9508      	ret
                  
                  ;END OF CODE MARKER
                  __END_OF_CODE:
@@ -2027,7 +2034,7 @@ fmul  :   0 fmuls :   0 fmulsu:   0 icall :   0 ijmp  :   0 in    :   0
 inc   :   6 ld    :  19 ldd   :   6 ldi   :  74 lds   :   1 lpm   :   7 
 lsl   :   2 lsr   :   0 mov   :  18 movw  :   6 mul   :   0 muls  :   0 
 mulsu :   0 neg   :   0 nop   :   0 or    :   0 ori   :   1 out   :   6 
-pop   :   0 push  :   0 rcall :  58 ret   :  14 reti  :   0 rjmp  :  44 
+pop   :   0 push  :   0 rcall :  60 ret   :  14 reti  :   0 rjmp  :  45 
 rol   :   0 ror   :   0 sbc   :   1 sbci  :   1 sbi   :  15 sbic  :   2 
 sbis  :   4 sbiw  :   8 sbr   :   0 sbrc  :   0 sbrs  :   0 sec   :   0 
 seh   :   0 sei   :   0 sen   :   0 ser   :   0 ses   :   0 set   :   1 
@@ -2039,7 +2046,7 @@ Instructions used: 48 out of 114 (42.1%)
 ATmega8A memory use summary [bytes]:
 Segment   Begin    End      Code   Data   Used    Size   Use%
 ---------------------------------------------------------------
-[.cseg] 0x000000 0x0003c6    854    112    966    8192  11.8%
+[.cseg] 0x000000 0x0003cc    860    112    972    8192  11.9%
 [.dseg] 0x000060 0x000180      0     32     32    1024   3.1%
 [.eseg] 0x000000 0x000000      0      0      0     512   0.0%
 

@@ -1134,7 +1134,7 @@ __REG_VARS:
 
 _0x0:
 	.DB  0x47,0x65,0x65,0x6B,0x54,0x61,0x62,0x2E
-	.DB  0x69,0x72,0x0,0x54,0x3A,0x20,0x0,0x48
+	.DB  0x69,0x72,0x0,0x48,0x3A,0x20,0x0,0x54
 	.DB  0x3A,0x20,0x0,0x45,0x0
 _0x2000003:
 	.DB  0x80,0xC0
@@ -1460,19 +1460,17 @@ _main:
 	__POINTW2MN _0x1A,0
 	RCALL _lcd_puts
 ; 0000 0071 	delay_ms(1000);
-	LDI  R26,LOW(1000)
-	LDI  R27,HIGH(1000)
-	RCALL _delay_ms
+	RCALL SUBOPT_0x2
 ; 0000 0072 	lcd_gotoxy(0, 1);
 	LDI  R30,LOW(0)
-	RCALL SUBOPT_0x2
-; 0000 0073 	lcd_puts("T: ");
+	RCALL SUBOPT_0x3
+; 0000 0073 	lcd_puts("H: ");
 	__POINTW2MN _0x1A,11
 	RCALL _lcd_puts
 ; 0000 0074 	lcd_gotoxy(7, 1);
 	LDI  R30,LOW(7)
-	RCALL SUBOPT_0x2
-; 0000 0075 	lcd_puts("H: ");
+	RCALL SUBOPT_0x3
+; 0000 0075 	lcd_puts("T: ");
 	__POINTW2MN _0x1A,15
 	RCALL _lcd_puts
 ; 0000 0076 
@@ -1480,28 +1478,30 @@ _main:
 ; 0000 0078 	while (1)
 _0x1B:
 ; 0000 0079 	{
-; 0000 007A 		request();
+; 0000 007A 		delay_ms(1000);
+	RCALL SUBOPT_0x2
+; 0000 007B 		request();
 	RCALL _request
-; 0000 007B 		response();
+; 0000 007C 		response();
 	RCALL _response
-; 0000 007C 
-; 0000 007D 		i_rh   = recive();
+; 0000 007D 
+; 0000 007E 		i_rh   = recive();
 	RCALL _recive
 	MOV  R7,R30
-; 0000 007E 		d_rh   = recive();
+; 0000 007F 		d_rh   = recive();
 	RCALL _recive
 	MOV  R6,R30
-; 0000 007F 		i_temp = recive();
+; 0000 0080 		i_temp = recive();
 	RCALL _recive
 	MOV  R9,R30
-; 0000 0080 		d_temp = recive();
+; 0000 0081 		d_temp = recive();
 	RCALL _recive
 	MOV  R8,R30
-; 0000 0081 		check  = recive();
+; 0000 0082 		check  = recive();
 	RCALL _recive
 	MOV  R11,R30
-; 0000 0082 
-; 0000 0083 		if ((i_rh + d_rh + i_temp + d_temp) != check)
+; 0000 0083 
+; 0000 0084 		if ((i_rh + d_rh + i_temp + d_temp) != check)
 	MOV  R26,R7
 	CLR  R27
 	CLR  R30
@@ -1518,49 +1518,50 @@ _0x1B:
 	CP   R30,R26
 	CPC  R31,R27
 	BREQ _0x1E
-; 0000 0084 		{
-; 0000 0085 			lcd_gotoxy(3, 1);
+; 0000 0085 		{
+; 0000 0086 			lcd_gotoxy(3, 1);
 	LDI  R30,LOW(3)
-	RCALL SUBOPT_0x2
-; 0000 0086 			lcd_puts("E");
+	RCALL SUBOPT_0x3
+; 0000 0087 			lcd_puts("E");
 	__POINTW2MN _0x1A,19
 	RCALL _lcd_puts
-; 0000 0087 
-; 0000 0088 			lcd_gotoxy(10, 1);
+; 0000 0088 
+; 0000 0089 			lcd_gotoxy(10, 1);
 	LDI  R30,LOW(10)
-	RCALL SUBOPT_0x2
-; 0000 0089 			lcd_puts("E");
+	RCALL SUBOPT_0x3
+; 0000 008A 			lcd_puts("E");
 	__POINTW2MN _0x1A,21
 	RJMP _0x21
-; 0000 008A 		} else
+; 0000 008B 		} else
 _0x1E:
-; 0000 008B 		{
-; 0000 008C 			itoa(i_rh, data);
+; 0000 008C 		{
+; 0000 008D 			itoa(i_rh, data);
 	MOV  R30,R7
-	RCALL SUBOPT_0x3
-; 0000 008D 			lcd_gotoxy(3, 1);
+	RCALL SUBOPT_0x4
+; 0000 008E 			lcd_gotoxy(3, 1);
 	LDI  R30,LOW(3)
-	RCALL SUBOPT_0x2
-; 0000 008E 			lcd_puts(data);
+	RCALL SUBOPT_0x3
+; 0000 008F 			lcd_puts(data);
 	MOVW R26,R28
 	RCALL _lcd_puts
-; 0000 008F 
 ; 0000 0090 
-; 0000 0091 			itoa(i_temp, data);
+; 0000 0091 
+; 0000 0092 			itoa(i_temp, data);
 	MOV  R30,R9
-	RCALL SUBOPT_0x3
-; 0000 0092 			lcd_gotoxy(10, 1);
+	RCALL SUBOPT_0x4
+; 0000 0093 			lcd_gotoxy(10, 1);
 	LDI  R30,LOW(10)
-	RCALL SUBOPT_0x2
-; 0000 0093 			lcd_puts(data);
+	RCALL SUBOPT_0x3
+; 0000 0094 			lcd_puts(data);
 	MOVW R26,R28
 _0x21:
 	RCALL _lcd_puts
-; 0000 0094 		}
-; 0000 0095 
-; 0000 0096 	}
+; 0000 0095 		}
+; 0000 0096 		delay_ms(1000);
+	RCALL SUBOPT_0x2
+; 0000 0097 	}
 	RJMP _0x1B
-; 0000 0097 }
+; 0000 0098 }
 _0x20:
 	RJMP _0x20
 ; .FEND
@@ -1618,11 +1619,11 @@ _0x2000009:
 _0x200000A:
 	CBI  0x12,1
 _0x200000B:
-	RCALL SUBOPT_0x4
+	RCALL SUBOPT_0x5
 	SBI  0x12,5
-	RCALL SUBOPT_0x4
+	RCALL SUBOPT_0x5
 	CBI  0x12,5
-	RCALL SUBOPT_0x4
+	RCALL SUBOPT_0x5
 	RJMP _0x20C0001
 ; .FEND
 __lcd_write_data:
@@ -1743,9 +1744,9 @@ _lcd_init:
 	__PUTB1MN __base_y_G100,3
 	LDI  R26,LOW(20)
 	RCALL SUBOPT_0x0
-	RCALL SUBOPT_0x5
-	RCALL SUBOPT_0x5
-	RCALL SUBOPT_0x5
+	RCALL SUBOPT_0x6
+	RCALL SUBOPT_0x6
+	RCALL SUBOPT_0x6
 	LDI  R26,LOW(32)
 	RCALL __lcd_write_nibble_G100
 	__DELAY_USW 200
@@ -1866,14 +1867,20 @@ SUBOPT_0x1:
 	CP   R30,R10
 	RET
 
-;OPTIMIZER ADDED SUBROUTINE, CALLED 6 TIMES, CODE SIZE REDUCTION:8 WORDS
+;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:2 WORDS
 SUBOPT_0x2:
+	LDI  R26,LOW(1000)
+	LDI  R27,HIGH(1000)
+	RJMP _delay_ms
+
+;OPTIMIZER ADDED SUBROUTINE, CALLED 6 TIMES, CODE SIZE REDUCTION:8 WORDS
+SUBOPT_0x3:
 	ST   -Y,R30
 	LDI  R26,LOW(1)
 	RJMP _lcd_gotoxy
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 2 TIMES, CODE SIZE REDUCTION:3 WORDS
-SUBOPT_0x3:
+SUBOPT_0x4:
 	LDI  R31,0
 	ST   -Y,R31
 	ST   -Y,R30
@@ -1882,12 +1889,12 @@ SUBOPT_0x3:
 	RJMP _itoa
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:2 WORDS
-SUBOPT_0x4:
+SUBOPT_0x5:
 	__DELAY_USB 13
 	RET
 
 ;OPTIMIZER ADDED SUBROUTINE, CALLED 3 TIMES, CODE SIZE REDUCTION:8 WORDS
-SUBOPT_0x5:
+SUBOPT_0x6:
 	LDI  R26,LOW(48)
 	RCALL __lcd_write_nibble_G100
 	__DELAY_USW 200
